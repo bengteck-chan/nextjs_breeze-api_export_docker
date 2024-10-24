@@ -6,24 +6,32 @@ import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
 
 const PasswordReset = () => {
-    const searchParams = useSearchParams()
-
     const { resetPassword } = useAuth({ middleware: 'guest' })
-
-    const [email, setEmail] = useState('')
+    
+    const [token, setToken] = useState('')
+    const [email, setEmail] = useState('') 
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
+    
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const token = urlParams.get('token') 
+        const email = urlParams.get('email') 
+        setToken( token )
+        setEmail( email )
+
+    }, [])
 
     const submitForm = event => {
         event.preventDefault()
 
         resetPassword({
+            token,
             email,
             password,
             password_confirmation: passwordConfirmation,
@@ -31,10 +39,6 @@ const PasswordReset = () => {
             setStatus,
         })
     }
-
-    useEffect(() => {
-        setEmail(searchParams.get('email'))
-    }, [searchParams.get('email')])
 
     return (
         <>

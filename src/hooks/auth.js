@@ -1,11 +1,12 @@
 import useSWR from 'swr'
 import axios from '@/lib/axios'
 import { useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+// import { useParams } from 'next/navigation'
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
-    const params = useParams()
+    // const params = useParams()
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
@@ -74,7 +75,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/reset-password', { token: params.token, ...props })
+            // .post('/reset-password', { token: params.token, ...props })
+            .post('/reset-password', { ...props })
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
             )
