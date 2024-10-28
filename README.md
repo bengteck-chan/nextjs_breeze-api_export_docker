@@ -89,3 +89,10 @@ Please review [our security policy](https://github.com/laravel/breeze-next/secur
 ## License
 
 Laravel Breeze Next is open-sourced software licensed under the [MIT license](LICENSE.md).
+
+## Docker create image, create container and run container
+docker build -t next-js-breeze-api-image
+docker run -d -p 3000:3000 --name next-js-breeze-api-container next-js-breeze-api-image
+
+## Export app to out folder
+npm run build
